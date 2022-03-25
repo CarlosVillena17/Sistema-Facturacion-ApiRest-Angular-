@@ -1,5 +1,7 @@
 package com.springboot.panecillos.app.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,9 +21,11 @@ public class Factura implements Serializable {
     private Date createAt;
     @ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "cliente_id")
+    @JsonIgnoreProperties({"facturas", "hibernateLazyInitializer", "handler"})
     private Cliente cliente;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<ItemFactura> items;
 
     public Factura() {

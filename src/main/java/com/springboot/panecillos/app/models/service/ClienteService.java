@@ -3,6 +3,8 @@ package com.springboot.panecillos.app.models.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.springboot.panecillos.app.models.dao.IFacturaDao;
+import com.springboot.panecillos.app.models.entity.Factura;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,9 @@ public class ClienteService implements IClienteService {
 	
 	@Autowired
 	private IClienteDao clienteDao;
+
+	@Autowired
+	private IFacturaDao facturaDao;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -57,6 +62,26 @@ public class ClienteService implements IClienteService {
 	public List<Region> findAllRegiones() {
 		// TODO Auto-generated method stub
 		return clienteDao.findAllRegiones();
-	} 
-	
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Factura findFacturaById(Long id) {
+		Optional<Factura> optional=facturaDao.findById(id);
+		if(optional.isPresent()){
+			return optional.get();
+		}
+		return null;
+	}
+
+	@Override
+	public Factura saveFactura(Factura factura) {
+		return facturaDao.save(factura);
+	}
+
+	@Override
+	public void deleteFacturaById(Long id) {
+		facturaDao.deleteById(id);
+	}
+
 }
